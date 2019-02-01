@@ -41,6 +41,8 @@ If the Fact queried is not in the KB, kb_explain should return "Fact is not in t
 
 If the same fact or rule is used in multiple supports, you must repeat its own supports along with it every time it appears. As with Assignment 2, you may assume that there are no circular dependencies (supports). 
 
+The supports of a Fact / Rule should be presented in the order specified by its supported_by list. When delivering each support pair, the Fact should be placed before the Rule.
+
 ### Testing
 
 To grade this lab, we'll run test cases similar to the ones provided. Since the main test naively compares your output line-by-line against a predefined string, make sure that your output precisely match the expected output. Again, please feel free to share your own test cases on Piazza. When sharing tests, please provide your rationale to the test, explain what you hope to test and/or how you developed the test.
