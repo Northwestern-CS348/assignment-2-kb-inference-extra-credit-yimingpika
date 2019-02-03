@@ -171,6 +171,10 @@ class KnowledgeBase(object):
         if isinstance(fact_or_rule, Fact):
             fact = self.facts[self.facts.index(fact_or_rule)]
             output += 'fact: %s' %(str(fact.statement))
+            
+            if fact.asserted:
+                output += ' ASSERTED'
+            
 
             if fact.supported_by:
                 for supports in fact.supported_by:
@@ -179,8 +183,7 @@ class KnowledgeBase(object):
                     for f in supports:
                         output += space * (blanks + 1)
                         output += self.explain_helper(f, '', blanks + 2)
-                        if f.asserted: 
-                            output += ' ASSERTED'
+                        
                         if i == 1:
                             output += '\n'
                         i += 1
@@ -198,6 +201,10 @@ class KnowledgeBase(object):
             output += ') -> '
             output += str(rule.rhs)
 
+            if rule.asserted:
+                output += ' ASSERTED'
+            
+
             if rule.supported_by:
                 for supports in rule.supported_by:
                     output += '\n' + space * blanks + 'SUPPORTED BY\n'
@@ -205,8 +212,7 @@ class KnowledgeBase(object):
                     for r in supports:
                         output += space * (blanks + 1)
                         output += self.explain_helper(r, '', blanks + 2)
-                        if r.asserted:
-                            output += ' ASSERTED'
+                        
                         if i == 1:
                             output += '\n'
                         i += 1

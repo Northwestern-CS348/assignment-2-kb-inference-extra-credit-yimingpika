@@ -85,6 +85,16 @@ fact: (eats nyala leaves)\n\
 '
         actual = self.KB.kb_explain(read.parse_input("fact: (eats nyala leaves)"))
         self.compare(self.expected, actual)
+        actual = self.KB.kb_explain(read.parse_input("fact: (eats nyala leaves)"))
+        self.compare(self.expected, actual)
+
+        a2 = self.KB.kb_explain(read.parse_input("fact: (genls nyala antelope)"))
+        str_a2 = "fact: (genls nyala antelope) ASSERTED"
+        self.compare(a2, str_a2)
+
+        a3 = self.KB.kb_explain(read.parse_input("rule: ((genls ?x ?y) (genls ?y ?z) (eats ?z leaves)) -> (eats ?x leaves)"))
+        str_a3 = "rule: ((genls ?x ?y), (genls ?y ?z), (eats ?z leaves)) -> (eats ?x leaves) ASSERTED"
+        self.compare(a3, str_a3)
 
 
 if __name__ == '__main__':
