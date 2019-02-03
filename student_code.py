@@ -142,6 +142,75 @@ class KnowledgeBase(object):
         """
         ####################################################
         # Student code goes here
+        output = ''
+        blanks = 1
+        if (not isinstance(fact_or_rule, Fact)) and (not isinstance(fact_or_rule, Rule)):
+            return False
+
+        elif isinstance(fact_or_rule, Fact):
+            if fact_or_rule not in self.facts:
+                return 'Fact is not in the KB'
+
+            else: 
+                
+                output += self.explain_helper(fact_or_rule, '', 1)
+        
+        elif isinstance(fact_or_rule, Rule):
+            if fact_or_rule not in self.rules:
+                return 'Rule is not in the KB'
+
+            else:
+                
+                output += self.explain_helper(fact_or_rule, '', 1)
+        print(output)
+        return output
+
+    def explain_helper(self, fact_or_rule, output, blanks):
+        space = '  '
+
+        if isinstance(fact_or_rule, Fact):
+            fact = self.facts[self.facts.index(fact_or_rule)]
+            output += 'fact: %s' %(str(fact.statement))
+
+            if fact.supported_by:
+                for supports in fact.supported_by:
+                    output += '\n' + space * blanks + 'SUPPORTED BY\n'
+                    i = 1
+                    for f in supports:
+                        output += space * (blanks + 1)
+                        output += self.explain_helper(f, '', blanks + 2)
+                        if f.asserted: 
+                            output += ' ASSERTED'
+                        if i == 1:
+                            output += '\n'
+                        i += 1
+        else: 
+            rule = self.rules[self.rules.index(fact_or_rule)]
+
+            output += 'rule: ('
+            i = 1
+            for lhs_statement in rule.lhs: 
+                output += str(lhs_statement)
+                if i < len(rule.lhs):
+                    output += ', '
+                i += 1
+
+            output += ') -> '
+            output += str(rule.rhs)
+
+            if rule.supported_by:
+                for supports in rule.supported_by:
+                    output += '\n' + space * blanks + 'SUPPORTED BY\n'
+                    i = 1
+                    for r in supports:
+                        output += space * (blanks + 1)
+                        output += self.explain_helper(r, '', blanks + 2)
+                        if r.asserted:
+                            output += ' ASSERTED'
+                        if i == 1:
+                            output += '\n'
+                        i += 1
+        return output
 
 
 class InferenceEngine(object):
